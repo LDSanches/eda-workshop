@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 5s
+
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - alertmanager:9093
+
+scrape_configs:
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets: ['podman:9100', 'rhel-1:9100', 'rhel-2:9100']
+
+rule_files:
+  - alert.rules

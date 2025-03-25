@@ -1,0 +1,10 @@
+groups:
+- name: selinux status
+  rules:
+  - alert: selinux disabled
+    expr: node_selinux_current_mode == 0
+    for: 10s
+    labels:
+      severity: page
+    annotations:
+      summary: "selinux is disabled on {{ $labels.instance }}"

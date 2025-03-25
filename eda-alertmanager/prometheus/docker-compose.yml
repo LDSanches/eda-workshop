@@ -1,0 +1,25 @@
+version: '3'
+services:
+  prometheus:
+    image: docker.io/prom/prometheus:latest
+    name: prometheus
+    user: root
+    privileged: true
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./alert.rules:/etc/prometheus/alert.rules
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+
+  alertmanager:
+    image: docker.io/prom/alertmanager:latest
+    name: alertmanager
+    privileged: true
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'

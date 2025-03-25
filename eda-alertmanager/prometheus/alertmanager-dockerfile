@@ -1,0 +1,18 @@
+FROM alpine:latest
+
+# Update system and install required packages
+RUN apk update && apk add --no-cache curl jq gettext
+
+# Create Alertmanager configuration directory
+RUN mkdir -p /etc/alertmanager/
+
+# Copy Alertmanager binary and your startup script
+COPY --from=docker.io/prom/alertmanager:latest /bin/alertmanager /bin/alertmanager
+COPY alertmanager-startup.sh /alertmanager-startup.sh
+COPY alertmanager.yml.template /etc/alertmanager/alertmanager.yml.template
+
+# Make your script executable
+RUN chmod +x /alertmanager-startup.sh
+
+# Define your entrypoint
+ENTRYPOINT ["/bin/sh", "/alertmanager-startup.sh"]

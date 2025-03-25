@@ -1,0 +1,14 @@
+version: '3'
+services:
+  gitea:
+    image: docker.io/gitea/gitea:1.20
+    privileged: true
+    container_name: gitea
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - ./app.ini:/data/gitea/conf/app.ini
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
